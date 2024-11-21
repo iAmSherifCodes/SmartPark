@@ -10,6 +10,7 @@ export default function Reservations() {
     const [spaceId, setSpaceId] = useState('')
     const [startTime, setStartTime] = useState('')
     const [endTime, setEndTime] = useState('')
+    console.log(spaceId, startTime, endTime);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
