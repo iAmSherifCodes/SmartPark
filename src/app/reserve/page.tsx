@@ -8,14 +8,23 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 
 export default function Reservations() {
     const [spaceId, setSpaceId] = useState('')
-    const [startTime, setStartTime] = useState('')
     const [endTime, setEndTime] = useState('')
-    console.log(spaceId, startTime, endTime);
+    console.log(spaceId, endTime);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         // Handle reservation logic here
-        console.log('Reservation:', { spaceId, startTime, endTime })
+        console.log('Reservation:', { "spaceNumber": spaceId, "reserveTime": endTime })
+        fetch('https://p0l7fhk64d.execute-api.us-east-1.amazonaws.com/test-a/reserve', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ "spaceNumber": spaceId, "reserveTime": endTime })
+        })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
     }
 
     return (
@@ -34,16 +43,6 @@ export default function Reservations() {
                                 placeholder="A1"
                                 value={spaceId}
                                 onChange={(e) => setSpaceId(e.target.value)}
-                                required
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="startTime">Start Time</Label>
-                            <Input
-                                id="startTime"
-                                type="datetime-local"
-                                value={startTime}
-                                onChange={(e) => setStartTime(e.target.value)}
                                 required
                             />
                         </div>
