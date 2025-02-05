@@ -27,8 +27,78 @@ export default function ParkingAvailability() {
 
     useEffect(() => {
         const fetchSpaces = async () => {
-            const response = await fetch(`url.com-spaces?limit=${limit}&cursor=${cursor}`);
+            // const response = await fetch(`url.com-spaces?limit=${limit}&cursor=${cursor}`);
+            const response = await fetch(`https://p0l7fhk64d.execute-api.us-east-1.amazonaws.com/test-a/available-spaces?limit=5`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log("RESPONSE:: ",response);
             const res = await response.json();
+
+            // const res = {
+            //     items: [
+            //         {
+            //             "reserved": false,
+            //             "is_reserved": false,
+            //             "space_no": "A0",
+            //             "status": "available",
+            //             "type": "regular"
+            //         },
+            //         {
+            //             "reserved": false,
+            //             "is_reserved": false,
+            //             "space_no": "A9",
+            //             "status": "available",
+            //             "type": "regular"
+            //         },
+            //         {
+            //             "reserved": false,
+            //             "is_reserved": false,
+            //             "space_no": "B5",
+            //             "status": "available",
+            //             "type": "regular"
+            //         },
+            //         {
+            //             "reserved": true,
+            //             "is_reserved": true,
+            //             "space_no": "D1",
+            //             "status": "unavailable",
+            //             "type": "regular"
+            //         },
+            //         {
+            //             "reserved": false,
+            //             "is_reserved": false,
+            //             "space_no": "A1",
+            //             "status": "available",
+            //             "type": "regular"
+            //         },
+            //         {
+            //             "reserved": false,
+            //             "is_reserved": false,
+            //             "space_no": "A8",
+            //             "status": "available",
+            //             "type": "regular"
+            //         },
+            //         {
+            //             "reserved": true,
+            //             "is_reserved": true,
+            //             "space_no": "D2",
+            //             "status": "unavailable",
+            //             "type": "regular"
+            //         }, 
+            //         {
+            //             "reserved": true,
+            //             "is_reserved": true,
+            //             "space_no": "D3",
+            //             "status": "unavailable",
+            //             "type": "regular"
+            //         },
+            //     ],
+            //     count: 3,
+            //     cursor: "%7B%22space_no%22%3A%22A1%22%7D"
+            // }
 
             if (typeof window !== 'undefined') {
                 localStorage.setItem("cursor", res.cursor);
@@ -43,7 +113,7 @@ export default function ParkingAvailability() {
 
     return (
         <div className="container mx-auto px-4 py-16">
-            <h1 className="text-3xl font-bold mb-8">Available Parking Spaces</h1>
+            <h1 className="text-3xl font-bold mb-8">Parking Spaces</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {spaces.map((space) => (
                     <Card key={space.id} className={space.status === 'available' ? 'border-green-500' : ''}>
