@@ -37,8 +37,8 @@ export default function ParkingAvailability() {
                 .then(data => console.log(data))
                 .catch(error => console.error('Error:', error));
             
-            // console.log("RESPONSE:: ",response);
-            // const res = await response.json();
+            console.log("RESPONSE:: ",res);
+            const response = await res.json();
 
             // const res = {
             //     items: [
@@ -104,11 +104,11 @@ export default function ParkingAvailability() {
             // }
 
             if (typeof window !== 'undefined') {
-                localStorage.setItem("cursor", res.cursor);
-                setCursor(res.cursor);
+                localStorage.setItem("cursor", response.cursor);
+                setCursor(response.cursor);
             }
 
-            setSpaces(res.items || []);
+            setSpaces(response.items || []);
         };
 
         fetchSpaces();
