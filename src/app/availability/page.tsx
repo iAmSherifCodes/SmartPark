@@ -27,7 +27,7 @@ export default function ParkingAvailability() {
 
     useEffect(() => {
         const fetchSpaces = async () => {
-            const res = await fetch(`https://kfxzkm0nzl.execute-api.us-east-1.amazonaws.com/webhook/available-spaces?limit=5`, {
+            const res = await fetch(`https://kfxzkm0nzl.execute-api.us-east-1.amazonaws.com/webhook/available-spaces?limit=${limit}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -104,10 +104,15 @@ export default function ParkingAvailability() {
             // }
 
             if (typeof window !== 'undefined') {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                //@ts-expect-error
                 localStorage.setItem("cursor", res.cursor);
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                //@ts-expect-error
                 setCursor(res.cursor);
             }
-
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //@ts-expect-error
             setSpaces(res.items || []);
         };
 
