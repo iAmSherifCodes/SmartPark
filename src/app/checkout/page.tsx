@@ -14,7 +14,7 @@ export default function CheckOut() {
     const handleCheckOut = (e: React.FormEvent) => {
         e.preventDefault()
         console.log('Check Out:', { "spaceNumber": reservationId })
-        fetch('https://p0l7fhk64d.execute-api.us-east-1.amazonaws.com/test-a/checkout', {
+        fetch('https://kfxzkm0nzl.execute-api.us-east-1.amazonaws.com/webhook/checkout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

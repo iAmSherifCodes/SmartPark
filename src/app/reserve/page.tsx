@@ -15,7 +15,7 @@ export default function Reservations() {
         e.preventDefault()
         // Handle reservation logic here
         console.log('Reservation:', { "spaceNumber": spaceId, "reserveTime": endTime })
-        fetch('https://p0l7fhk64d.execute-api.us-east-1.amazonaws.com/test-a/reserve', {
+        fetch('https://kfxzkm0nzl.execute-api.us-east-1.amazonaws.com/webhook/reserve', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

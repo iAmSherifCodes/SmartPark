@@ -27,15 +27,18 @@ export default function ParkingAvailability() {
 
     useEffect(() => {
         const fetchSpaces = async () => {
-            // const response = await fetch(`url.com-spaces?limit=${limit}&cursor=${cursor}`);
-            const response = await fetch(`https://p0l7fhk64d.execute-api.us-east-1.amazonaws.com/test-a/available-spaces?limit=5`, {
+            const res = await fetch(`https://kfxzkm0nzl.execute-api.us-east-1.amazonaws.com/webhook/available-spaces?limit=5`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
                 }
-            });
-            console.log("RESPONSE:: ",response);
-            const res = await response.json();
+            })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(error => console.error('Error:', error));
+            
+            // console.log("RESPONSE:: ",response);
+            // const res = await response.json();
 
             // const res = {
             //     items: [

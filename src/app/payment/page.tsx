@@ -12,7 +12,7 @@ export default function Payment() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         console.log('Payment:', { paymentId })
-        fetch('https://p0l7fhk64d.execute-api.us-east-1.amazonaws.com/test-a/pay', {
+        fetch('https://kfxzkm0nzl.execute-api.us-east-1.amazonaws.com/webhook/pay', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
