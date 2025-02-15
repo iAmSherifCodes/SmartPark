@@ -8,12 +8,22 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function CheckOut() {
-    const [reservationId, setReservationId] = useState('')
+    const [reservationId, setReservationId] = useState('');
+    console.log({ "spaceNumber": reservationId });
 
     const handleCheckOut = (e: React.FormEvent) => {
         e.preventDefault()
-        console.log('Check Out:', reservationId)
-        //check-out logic here
+        console.log('Check Out:', { "spaceNumber": reservationId })
+        fetch('https://p0l7fhk64d.execute-api.us-east-1.amazonaws.com/test-a/checkout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ "spaceNumber": reservationId })
+        }).then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+
     }
 
     return (
@@ -34,9 +44,9 @@ export default function CheckOut() {
                             required
                         />
                     </div>
-                    <Link href="/payment">
+                    {/* <Link href="/payment"> */}
                         <Button type="submit" className="w-full">Proceed to Payment {"->"}</Button>
-                    </Link>
+                    {/* </Link> */}
                 </form>
             </CardContent>
         </Card>

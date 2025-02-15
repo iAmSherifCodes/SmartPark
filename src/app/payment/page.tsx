@@ -7,13 +7,25 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function Payment() {
-    const [cardNumber, setCardNumber] = useState('')
-    const [expiryDate, setExpiryDate] = useState('')
-    const [cvv, setCvv] = useState('')
-
+    const [paymentId, setPaymentId] = useState('')
+    console.log('Payment:', { paymentId })
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        console.log('Payment:', { cardNumber, expiryDate, cvv })
+        console.log('Payment:', { paymentId })
+        fetch('https://p0l7fhk64d.execute-api.us-east-1.amazonaws.com/test-a/pay', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ paymentId }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Payment response:', data)
+            })
+            .catch((error) => {
+                console.error('Payment error:', error)
+            })
     }
 
     return (
@@ -25,36 +37,14 @@ export default function Payment() {
             <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="cardNumber">Card Number</Label>
+                        <Label htmlFor="paymentId">Payment ID</Label>
                         <Input
-                            id="cardNumber"
+                            id="paymentId"
                             placeholder="1234 5678 9012 3456"
-                            value={cardNumber}
-                            onChange={(e) => setCardNumber(e.target.value)}
+                            value={paymentId}
+                            onChange={(e) => setPaymentId(e.target.value)}
                             required
                         />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                            <Label htmlFor="expiryDate">Expiry Date</Label>
-                            <Input
-                                id="expiryDate"
-                                placeholder="MM/YY"
-                                value={expiryDate}
-                                onChange={(e) => setExpiryDate(e.target.value)}
-                                required
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="cvv">CVV</Label>
-                            <Input
-                                id="cvv"
-                                placeholder="123"
-                                value={cvv}
-                                onChange={(e) => setCvv(e.target.value)}
-                                required
-                            />
-                        </div>
                     </div>
                     <Button type="submit" className="w-full">Pay Now</Button>
                 </form>
