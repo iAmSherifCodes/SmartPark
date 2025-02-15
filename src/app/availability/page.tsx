@@ -25,20 +25,30 @@ export default function ParkingAvailability() {
         typeof window !== 'undefined' ? localStorage.getItem("cursor") : null
     );
 
+    const [selectedTab, setSelectedTab] = useState<"available" | "all">("available");
+
     useEffect(() => {
+
         const fetchSpaces = async () => {
-            const res = await fetch(`https://kfxzkm0nzl.execute-api.us-east-1.amazonaws.com/webhook/available-spaces?limit=${limit}`, {
+            const baseUrl = "https://kfxzkm0nzl.execute-api.us-east-1.amazonaws.com/webhook";
+            const url =
+                selectedTab === "available"
+                    ? `${baseUrl}/available-spaces?limit=${limit}?cursor=${cursor}`
+                    : `${baseUrl}/all-spaces?limit=${limit}?cursor=${cursor}`;
+
+            // const response = await fetch(`https://kfxzkm0nzl.execute-api.us-east-1.amazonaws.com/webhook/available-spaces?limit=${limit}?cursor=${cursor}`, {
+            const response = await fetch(url, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
                 }
             })
-                .then(response => response.json())
-                .then(data => console.log(data))
-                .catch(error => console.error('Error:', error));
-            
-            // console.log("RESPONSE:: ",response);
-            // const res = await response.json();
+            // .then(response => response.json())
+            // .then(data => console.log(data))
+            // .catch(error => console.error('Error:', error));
+
+            console.log("RESPONSE:: ", response);
+            const res = await response.json();
 
             // const res = {
             //     items: [
@@ -104,24 +114,43 @@ export default function ParkingAvailability() {
             // }
 
             if (typeof window !== 'undefined') {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                //@ts-expect-error
+
                 localStorage.setItem("cursor", res.cursor);
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                //@ts-expect-error
+
                 setCursor(res.cursor);
             }
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            //@ts-expect-error
+
             setSpaces(res.items || []);
         };
 
         fetchSpaces();
-    }, [cursor]);
+    }, [cursor, selectedTab]);
+    // }, [cursor]);
 
     return (
         <div className="container mx-auto px-4 py-16">
             <h1 className="text-3xl font-bold mb-8">Parking Spaces</h1>
+
+            <div className="flex space-x-4 mb-6">
+                <button
+                    onClick={() => setSelectedTab("available")}
+                    className={`px-4 py-2 rounded-md ${
+                        selectedTab === "available" ? "bg-blue-500 text-white" : "bg-gray-200"
+                    }`}
+                >
+                    Available Spaces
+                </button>
+                <button
+                    onClick={() => setSelectedTab("all")}
+                    className={`px-4 py-2 rounded-md ${
+                        selectedTab === "all" ? "bg-blue-500 text-white" : "bg-gray-200"
+                    }`}
+                >
+                    All Spaces
+                </button>
+            </div>
+
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {spaces.map((space) => (
                     <Card key={space.id} className={space.status === 'available' ? 'border-green-500' : ''}>
@@ -142,19 +171,6 @@ export default function ParkingAvailability() {
         </div>
     );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // const spaces = [
