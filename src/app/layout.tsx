@@ -1,42 +1,40 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-// import Link from 'next/link'
+import { ThemeProvider } from 'next-themes'
+import { Navigation } from '@/components/navigation'
 import React from "react";
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Parking Lot User App',
-  description: 'Manage your parking with ease',
+  title: 'SmartPark - Intelligent Parking Management',
+  description: 'Find, reserve, and manage your parking with ease using SmartPark',
 }
 
 export default function RootLayout({
-                                     children,
-                                   }: {
+  children,
+}: {
   children: React.ReactNode
 }) {
   return (
-      <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-      <div className="flex min-h-screen">
-        {/*<nav className="w-64 bg-gray-100 p-4">*/}
-        {/*  <ul className="space-y-2">*/}
-        {/*    <li><Link href="/">Home</Link></li>*/}
-        {/*    <li><Link href="/dashboard">Dashboard</Link></li>*/}
-        {/*    <li><Link href="/reserve">Make Reservation</Link></li>*/}
-        {/*    <li><Link href="/availability">Check Availability</Link></li>*/}
-        {/*    <li><Link href="/checkin">Check In</Link></li>*/}
-        {/*    <li><Link href="/checkout">Check Out</Link></li>*/}
-        {/*    <li><Link href="/payment">Payment</Link></li>*/}
-        {/*  </ul>*/}
-        {/*</nav>*/}
-        <main className="flex-1 p-8">
-          {children}
-        </main>
-      </div>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <div className="min-h-screen bg-background">
+            <Navigation />
+            <main className="container mx-auto px-4 py-8">
+              {children}
+            </main>
+          </div>
+        </ThemeProvider>
       </body>
-      </html>
+    </html>
   )
 }
 
